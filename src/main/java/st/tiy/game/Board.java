@@ -24,12 +24,20 @@ public class Board {
 		return this.board;
 	}
 
-	public Sign[][] putSign(Sign sign, Coordinates coordinates) {
-		// TODO Early exit check
-
+	public boolean putSign(Sign sign, Coordinates coordinates) {
+		//Early exit check
+		if(!placementAllowed(coordinates) || !placementEmpty(coordinates)) return false;
 		this.board[coordinates.x][coordinates.y] = sign;
-		return this.board;
+		return true;
 	}
+	private boolean placementEmpty(Coordinates coordinates)
+	{
+		return board[coordinates.x][coordinates.y] == Sign.EMPTY;
+	}
+	private boolean placementAllowed(Coordinates coordinates)
+	{
+        return coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < BOARD_SIZE && coordinates.y < BOARD_SIZE;
+    }
 
 	public void printBoard() {
 		for (int i = 0; i < this.board.length; i++) {

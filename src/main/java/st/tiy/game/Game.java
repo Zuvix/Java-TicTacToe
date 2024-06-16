@@ -12,7 +12,6 @@ public class Game {
 	private Player player1;
 	private Player player2;
 
-	private boolean isTie;
 
 	public Game(Board board) {
 		this.board = board;
@@ -21,26 +20,15 @@ public class Game {
 	}
 
 	public void startGame() {
-		this.isTie = false;
 		Player activePlayer = this.player1;
 		do {
 			activePlayer = activePlayer == player1 ? player2 : player1;
-
 			this.board.printBoard();
-			Coordinates coordinates = activePlayer.takeTurn();
-			this.board.putSign(activePlayer.getSign(), coordinates);
+			activePlayer.takeTurn();
 		} while (!isGameEnded());
 
-		String gameEndMessage = this.isTie
-				? "Game over, ended in tie"
-				: "Game over, winner is: " + activePlayer.getName();
-
-		System.out.println(gameEndMessage);
 	}
 
-	public void resetGame() {
-
-	}
 
 	private boolean isGameEnded() {
 		Sign[][] brd = this.board.getBoard();
@@ -55,7 +43,6 @@ public class Game {
 
 		//Is board full, with no winner
 		if (Stream.of(brd).flatMap(Stream::of).noneMatch(sign -> sign.equals(Sign.EMPTY))) {
-			this.isTie = true;
 			return true;
 		}
 		return false;
