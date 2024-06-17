@@ -4,23 +4,24 @@ import java.util.Arrays;
 
 public class Board {
 
-	public static final int BOARD_SIZE = 3;
+	private int boardSize;
 	private final Sign[][] board;
 
-	public Board() {
-		this.board = initializeBoard();
+	public Board(int boardSize, int winningLength) {
+		this.board = initializeBoard(boardSize);
+	}
+	public int getBoardSize(){
+		return this.boardSize;
 	}
 
-	private Sign[][] initializeBoard() {
-		Sign[][] board = new Sign[BOARD_SIZE][BOARD_SIZE];
+	private Sign[][] initializeBoard(int boardSize) {
+		Sign[][] board = new Sign[boardSize][boardSize];
 		Arrays.stream(board).forEach(row -> Arrays.fill(row, Sign.EMPTY));
-
 		return board;
 	}
 
 	public Sign[][] resetBoard() {
-		initializeBoard();
-
+		initializeBoard(this.boardSize);
 		return this.board;
 	}
 
@@ -36,7 +37,7 @@ public class Board {
 	}
 	private boolean placementAllowed(Coordinates coordinates)
 	{
-        return coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < BOARD_SIZE && coordinates.y < BOARD_SIZE;
+        return coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < this.boardSize && coordinates.y < this.boardSize;
     }
 
 	public void printBoard() {
