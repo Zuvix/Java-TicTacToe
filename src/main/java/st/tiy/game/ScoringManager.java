@@ -23,7 +23,7 @@ public class ScoringManager {
         return checkLine(placedSign,Direction.UP,Direction.DOWN)
             || checkLine(placedSign,Direction.LEFT,Direction.RIGHT)
             || checkLine(placedSign,Direction.TOPLEFT,Direction.BOTTOMLEFT)
-            || checkLine(placedSign,Direction.TOPRIGHT,Direction.BOTTOMLEFT);
+            || checkLine(placedSign,Direction.TOPRIGHT,Direction.BOTTOMRIGHT);
 
     }
 
