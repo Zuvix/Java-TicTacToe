@@ -11,53 +11,27 @@ public class Game {
 	private Board board;
 	private Player player1;
 	private Player player2;
-	private ScoringHelper scoringHelper;
-	public Game(Board board) {
+	ScoringManager scoringManager;
+
+	public Game(Board board,ScoringManager scoringManager) {
 		this.board = board;
 		this.player1 = new HumanPlayer("1", Sign.X, board);
-		this.player2 = new AiPlayer("2", Sign.O, board);
-		scoringHelper = new ScoringHelper()
+		this.player2 = new HumanPlayer("2", Sign.O, board);
+		this.scoringManager = scoringManager;
 	}
 
-	public void startGame() {
+	public GameResult startGame() {
 		Player activePlayer = this.player1;
+		GameResult result = GameResult.UNFINISHED;
 		do {
 			activePlayer = activePlayer == player1 ? player2 : player1;
 			this.board.printBoard();
 			Coordinates placedSign = activePlayer.takeTurn();
-			this.boardSize++;
-		} while (!isGameEnded());
-
+			//Early return if any player win
+			if(scoringManager.checkWinningPlay(placedSign)) return activePlayer == player1 ? GameResult.Player1 : GameResult.Player2;
+			if(scoringManager.checkTie()) result = GameResult.TIE;
+		} while (result == GameResult.UNFINISHED);
+		return result;
 	}
 
-
-	private boolean isGameEnded() {
-		Sign[][] brd = this.board.getBoard();
-
-		//Left diagonal
-		if (brd[0][0] != Sign.EMPTY &&
-				brd[0][0] == brd[1][1] &&
-				brd[0][0] == brd[2][2]) {
-			return true;
-		}
-		// TODO dorobit zvysne checky (right diagonal, rows, columns)
-
-		//Is board full, with no winner
-		if (Stream.of(brd).flatMap(Stream::of).noneMatch(sign -> sign.equals(Sign.EMPTY))) {
-			return true;
-		}
-		return false;
-	}
-	private boolean resolveTurnScoring(Coordinates coordinates)
-	{
-		Sign[][] brd = this.board.getBoard();
-		Sign selecetdSign = brd[coordinates.x][coordinates.y];
-		Direction positive = Direction.UP;
-		Direction negative = Direction.DOWN;
-
-	}
-	private Player findWinner(Sign sign) {
-
-		return null;
-	}
 }

@@ -7,12 +7,15 @@ public class Board {
 	private int boardSize;
 	private final Sign[][] board;
 
-	public Board(int boardSize, int winningLength) {
+	public Board(int boardSize) {
 		this.board = initializeBoard(boardSize);
+		this.boardSize = boardSize;
 	}
 	public int getBoardSize(){
 		return this.boardSize;
 	}
+
+	public Sign getSign(Coordinates coordinates){return board[coordinates.x][coordinates.y]; }
 
 	private Sign[][] initializeBoard(int boardSize) {
 		Sign[][] board = new Sign[boardSize][boardSize];
@@ -27,15 +30,22 @@ public class Board {
 
 	public boolean putSign(Sign sign, Coordinates coordinates) {
 		//Early exit check
-		if(!placementAllowed(coordinates) || !placementEmpty(coordinates)) return false;
+		if(!placementEmpty(coordinates)) return false;
 		this.board[coordinates.x][coordinates.y] = sign;
 		return true;
 	}
-	private boolean placementEmpty(Coordinates coordinates)
+	public boolean isSignPresent(Coordinates coordinates, Sign sign)
 	{
-		return board[coordinates.x][coordinates.y] == Sign.EMPTY;
+		if(!placementAllowed(coordinates)) return false;
+		return board[coordinates.x][coordinates.y].equals(sign);
 	}
-	private boolean placementAllowed(Coordinates coordinates)
+
+	public boolean placementEmpty(Coordinates coordinates)
+	{
+		return isSignPresent(coordinates,Sign.EMPTY);
+	}
+
+	public boolean placementAllowed(Coordinates coordinates)
 	{
         return coordinates.x >= 0 && coordinates.y >= 0 && coordinates.x < this.boardSize && coordinates.y < this.boardSize;
     }
@@ -47,10 +57,6 @@ public class Board {
 			}
 			System.out.println();
 		}
-	}
-
-	public Sign[][] getBoard() {
-		return board;
 	}
 
 }

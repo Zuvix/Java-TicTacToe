@@ -15,21 +15,15 @@ public class HumanPlayer extends Player	{
 	@Override
 	public Coordinates takeTurn() {
 		boolean turnPlayedSuccessfully;
+		Coordinates coordinates;
 		do
 		{
-			Coordinates coordinates = getCoordinates();
-			turnPlayedSuccessfully = this.board.putSign(this.getSign(), coordinates);
-			if(!turnPlayedSuccessfully){
-			 System.out.println("Incorrect placement [x: "+coordinates.x +" y: "+coordinates.y+"]");
-			 }
-			else{
-				return coordinates;
-			}
+			coordinates = getCoordinates();
+			turnPlayedSuccessfully = this.board.putSign(this.sign, coordinates);
+			if(!turnPlayedSuccessfully) System.out.println("Incorrect placement [column: "+coordinates.x +" row: "+coordinates.y+"]");
 		}
 		while(!turnPlayedSuccessfully);
-		// Lets consider -1, -1 error coordinates
-		return new Coordinates(-1,-1);
-
+		return coordinates;
 	}
 
 	private Coordinates getCoordinates(){
