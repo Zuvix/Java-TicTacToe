@@ -30,6 +30,7 @@ public class Game {
 			//Early return if any player win
 			if(scoringManager.checkWinningPlay(placedSign)) return activePlayer == player1 ? GameResult.Player1 : GameResult.Player2;
 			if(scoringManager.checkTie()) result = GameResult.TIE;
+			
 		} while (result == GameResult.UNFINISHED);
 		return result;
 	}
